@@ -21,15 +21,51 @@ struct node{
 	int data;
 	struct node *right;
 };
-
+void in_order(struct node *temp, int *result, int *i){
+	if (temp == NULL){
+		return;
+	}
+	in_order(temp->left, result, i);
+		result[*i] = temp->data;
+		(*i)++;
+	in_order(temp->right, result, i);
+}
+void pre_order(struct node *temp, int *result, int *i){
+	if (temp == NULL){
+		return;
+	}
+	result[*i] = temp->data;
+	(*i)++;
+	pre_order(temp->left, result, i);
+	pre_order(temp->right, result, i);
+}
+void post_order(struct node *temp, int *result, int *i){
+	if (temp == NULL){
+		return;
+	}
+	post_order(temp->left, result, i);
+	post_order(temp->right, result, i);
+	result[*i] = temp->data;
+	(*i)++;
+}
 
 void inorder(struct node *root, int *arr){
+	int i = 0;
+	if (root == NULL || arr == NULL)
+		return;
+	in_order(root, arr, &i);
 	
 }
 void preorder(struct node *root, int *arr){
-	
+	int i = 0;
+	if (root == NULL || arr == NULL)
+		return;
+	pre_order(root, arr, &i);
 }
 void postorder(struct node *root, int *arr){
-	
+	int i = 0;
+	if (root == NULL || arr == NULL)
+		return;
+	post_order(root, arr, &i);
 }
 
