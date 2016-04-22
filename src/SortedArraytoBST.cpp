@@ -32,10 +32,23 @@ struct node{
 	int data;
 	struct node *right;
 };
+struct node* bstconstruction(int arr[], int start, int end)
+{
+	if (start > end)
+		return NULL;
+	int mid = (start + end) / 2;
+	struct node *root = (struct node*)malloc(sizeof(struct node));
+	root->data = arr[mid];
+	root->left = bstconstruction(arr, start, mid - 1);
+	root->right = bstconstruction(arr, mid + 1, end);
 
-
+	return root;
+}
 struct node * convert_array_to_bst(int *arr, int len){
-	
-	return NULL;
+	struct node *temp;
+	if (arr == NULL || len <= 0)
+		return NULL;
+	temp = bstconstruction(arr, 0, len - 1);
+	return temp;
 }
 
