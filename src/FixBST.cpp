@@ -31,7 +31,41 @@ struct node{
 	int data;
 	struct node *right;
 };
+void checkbst(struct node* root, struct node** one,struct node** two, struct node** three,struct node** temp)
+{
+	if (root == NULL)
+		return;
+	checkbst(root->left, one, two, three, temp);
+	if (*temp && root->data < (*temp)->data)
+	{
+		if (*one == NULL)
+		{
+			*one = *temp;
+			*two = root;
+		}
+	else
+			*three = root;
+	}
+	*temp = root;
+	checkbst(root->right, one, two, three, temp);
+}
+void bst(struct node* root)
+{
+	int t;
+	struct node *one = NULL;
+	struct node *two = NULL;
+	struct node *three = NULL;
+	struct node *temp =  NULL;
+	checkbst(root, &one, &two, &three, &temp);
+	if (three == NULL)
+		three = two;
+	t			= one->data;
+	one->data	= three->data;
+	three->data = t;
+}
 
 void fix_bst(struct node *root){
-
+	if (root == NULL)
+		return;
+	bst(root);
 }
