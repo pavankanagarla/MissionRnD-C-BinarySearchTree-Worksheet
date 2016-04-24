@@ -38,8 +38,54 @@ struct node{
   int data;
   struct node *right;
 };
+int height(struct node *root){
+	int lheight;
+	int rheight;
+	if (root == NULL)
+		return 0;
+	lheight = height(root->left);
+	rheight = height(root->right);
+	if (lheight == 0 && rheight != 0)
+		return rheight + 1;
+	else if (lheight != 0 && rheight == 0)
+		return lheight + 1;
+	else if (lheight < rheight)
+		return lheight + 1;
+	else
+		return rheight + 1;
+}
+void getdistance(struct node *root,struct node *temp, int *h,int *node_count){
+	int t;
+	if (root){
+		if (root == temp){
+			*h = height(root);
+			*node_count = 1;;
+		} else {
+			if (root->data > temp->data) {
+				getdistance(root->left, temp, h, node_count);
+				if (*node_count != 0) {
+					t = height(root);
+					if (*h > t + *node_count)
+						*h = t + *node_count;
+				}
+			} else {
+				getdistance(root->right, temp, h, node_count);
+				if (*node_count != 0){
+					t = height(root);
+					if (t + *node_count < *h)
+						*h = t + *node_count;
+				}
+			}
+		}
+	}
+}
 
 int get_closest_leaf_distance(struct node *root, struct node *temp)
 {
-  return -1;
+	int h = 0;
+	int node_count = 0;
+	if (root == NULL || temp == NULL)
+		return -1;
+    getdistance(root, temp, &h, &node_count);
+	return h - 1;
 }
